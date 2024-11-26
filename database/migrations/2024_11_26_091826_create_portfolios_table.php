@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('background');
             $table->text('description');
             $table->text('sub_description')->nullable();
+            $table->json('images')->nullable();
             $table->boolean('is_public')->default(true);
+
+            $table->unsignedInteger('sort')->nullable();
 
             $table->timestamps();
         });

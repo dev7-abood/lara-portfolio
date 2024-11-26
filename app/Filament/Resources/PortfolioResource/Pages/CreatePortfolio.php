@@ -43,10 +43,10 @@ class CreatePortfolio extends CreateRecord
                         ->label('Background Image')
                         ->image() // Ensure only image files are uploaded
                         ->directory('portfolio/backgrounds'), // Optional directory setting
-//                    FileUpload::make('images')
-//                        ->label('Gallery Images')
-//                        ->multiple() // Allow multiple file uploads
-//                        ->directory('portfolio/images'), // Optional directory setting
+                    FileUpload::make('images')
+                        ->label('Gallery Images')
+                        ->multiple() // Allow multiple file uploads
+                        ->directory('portfolio/images'), // Optional directory setting
                 ])
                     ->collapsible(),
 
