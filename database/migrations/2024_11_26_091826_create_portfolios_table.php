@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('title');
-            $table->string('sub_title')->nullable();
+            $table->string('subtitle')->nullable();
             $table->string('url')->nullable();
 
             $table->string('background');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->json('images')->nullable();
             $table->boolean('is_public')->default(true);
 
-            $table->unsignedInteger('sort')->nullable();
+            $table->integer('sort')->unsigned()->nullable();
 
             $table->timestamps();
         });

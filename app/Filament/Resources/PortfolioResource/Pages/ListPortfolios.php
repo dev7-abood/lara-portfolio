@@ -7,6 +7,8 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -18,7 +20,9 @@ class ListPortfolios extends ListRecords
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title'),
+                TextColumn::make('subtitle'),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //
@@ -30,7 +34,9 @@ class ListPortfolios extends ListRecords
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('sort')
+            ->defaultSort('sort');
     }
 
     protected function getHeaderActions(): array

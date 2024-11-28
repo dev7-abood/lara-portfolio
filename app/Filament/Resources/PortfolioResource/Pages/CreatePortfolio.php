@@ -28,7 +28,7 @@ class CreatePortfolio extends CreateRecord
                     TextInput::make('title')
                         ->label('Title')
                         ->required(),
-                    TextInput::make('sub_title')
+                    TextInput::make('subtitle')
                         ->label('Subtitle'),
                     TextInput::make('url')
                         ->label('Portfolio URL')

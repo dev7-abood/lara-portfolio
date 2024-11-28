@@ -25,7 +25,7 @@ class EditPortfolio extends EditRecord
                     TextInput::make('title')
                         ->label('Title')
                         ->required(),
-                    TextInput::make('sub_title')
+                    TextInput::make('subtitle')
                         ->label('Subtitle'),
                     TextInput::make('url')
                         ->label('Portfolio URL')
@@ -43,6 +43,7 @@ class EditPortfolio extends EditRecord
                     FileUpload::make('images')
                         ->label('Gallery Images')
                         ->multiple() // Allow multiple file uploads
+                        ->reorderable()
                         ->directory('portfolio/images'), // Optional directory setting
                 ])
                     ->collapsible(),

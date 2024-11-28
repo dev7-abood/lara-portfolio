@@ -20,13 +20,6 @@ class EditAboutMe extends EditRecord
         return $form
             ->schema([
 
-                Section::make('Settings') // Separate section for toggles and configurations
-                ->schema([
-                    Toggle::make('is_public')
-                        ->label('Publicly Visible')
-                ])
-                    ->collapsible(),
-
                 Section::make('Descriptions')
                     ->schema([
                         RichEditor::make('description')
@@ -46,13 +39,11 @@ class EditAboutMe extends EditRecord
                     ])
                     ->collapsible(),
 
-                Section::make('Media')
-                    ->schema([
-                        FileUpload::make('image')
-                            ->label('Background Image')
-                            ->image() // Ensure only image files are uploaded
-                            ->directory('portfolio/backgrounds'), // Optional directory setting
-                    ])
+                Section::make('Settings') // Separate section for toggles and configurations
+                ->schema([
+                    Toggle::make('is_public')
+                        ->label('Publicly Visible')
+                ])
                     ->collapsible(),
 
             ]);

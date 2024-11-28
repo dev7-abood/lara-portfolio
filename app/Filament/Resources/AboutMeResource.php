@@ -11,26 +11,12 @@ use Filament\Tables\Table;
 class AboutMeResource extends Resource
 {
     protected static ?string $model = AboutMe::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+    protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+    protected static ?string $navigationLabel = 'About Me';
+    protected static ?string $pluralLabel = 'About Me';
+    protected static ?string $slug = 'about-me';
+    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationGroup = 'About Me';
 
     public static function getRelations(): array
     {

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
 
+            $table->boolean('is_public')->default(false);
+
             $table->timestamps();
         });
     }

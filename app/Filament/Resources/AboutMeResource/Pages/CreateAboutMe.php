@@ -20,33 +20,33 @@ class CreateAboutMe extends CreateRecord
     {
         return $form
             ->schema([
-                Section::make('Settings') // Separate section for toggles and configurations
-                ->schema([
+
+                Section::make('Descriptions')
+                    ->schema([
+                        RichEditor::make('description')
+                            ->label('Main Description')
+                            ->required()
+                            ->placeholder('Write the main description here...')
+                            ->columnSpan(6), // Half-width
+                    ])
+                    ->collapsible(),
+
+                Section::make('Media')
+                    ->schema([
+                        FileUpload::make('image')
+                            ->label('Background Image')
+                            ->image() // Ensure only image files are uploaded
+                            ->directory('portfolio/backgrounds'), // Optional directory setting
+                    ])
+                    ->collapsible(),
+
+                Section::make('Settings')
+                    ->schema([
                     Toggle::make('is_public')
                         ->label('Publicly Visible')
                         ->default(true),
                 ])
                     ->collapsible(),
-
-                Section::make('Descriptions')
-                ->schema([
-                    RichEditor::make('description')
-                        ->label('Main Description')
-                        ->required()
-                        ->placeholder('Write the main description here...')
-                        ->columnSpan(6), // Half-width
-                ])
-                    ->collapsible(),
-
-                Section::make('Media')
-                ->schema([
-                    FileUpload::make('image')
-                        ->label('Background Image')
-                        ->image() // Ensure only image files are uploaded
-                        ->directory('portfolio/backgrounds'), // Optional directory setting
-                ])
-                    ->collapsible(),
-
             ]);
     }
 }

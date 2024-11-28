@@ -18,6 +18,10 @@ class PortfolioResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
+    protected static ?string $navigationGroup = 'Portfolio';
+
+    protected static ?int $navigationSort = 2;
+
     public static function getRelations(): array
     {
         return [
