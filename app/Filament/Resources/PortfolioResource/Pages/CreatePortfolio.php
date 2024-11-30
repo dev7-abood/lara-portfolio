@@ -71,7 +71,9 @@ class CreatePortfolio extends CreateRecord
                                 ->directory('portfolio/backgrounds'),
                             FileUpload::make('images')
                                 ->label('Gallery Images')
+                                ->image()
                                 ->multiple()
+                                ->reorderable()
                                 ->directory('portfolio/images'),
                         ])
                         ->collapsible()
@@ -95,6 +97,20 @@ class CreatePortfolio extends CreateRecord
                         ])
                         ->collapsible(),
 
+                    Section::make('Categories')
+                        ->schema([
+                            Select::make('categories')
+                                ->label('Select Categories')
+                                ->multiple()
+                                ->relationship('categorise', 'name',
+                                    fn(Builder $query) => $query->where(['is_public' => true, 'categoryable_type' => Portfolio::class])
+                                )
+                                ->preload()
+//                                ->default()
+                                ->required(),
+                        ])
+                        ->collapsible(),
+
                     Section::make('Tags')
                         ->schema([
                             Select::make('tags')
@@ -105,18 +121,6 @@ class CreatePortfolio extends CreateRecord
                         ])
                         ->collapsible(),
 
-                    Section::make('Categories')
-                        ->schema([
-                            Select::make('categories')
-                                ->label('Select Categories')
-                                ->multiple()
-                                ->relationship('categorise', 'name',
-                                    fn (Builder $query)
-                                    => $query->where(['is_public' => true, 'categoryable_type' => Portfolio::class])
-                                )
-                                ->preload(),
-                        ])
-                        ->collapsible(),
                 ])->columnSpan([
                     'default' => 12,
                     'md' => 4,

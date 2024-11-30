@@ -16,11 +16,11 @@ class PortfolioResource extends Resource
 {
     protected static ?string $model = Portfolio::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     protected static ?string $navigationGroup = 'Portfolio';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public static function getRelations(): array
     {

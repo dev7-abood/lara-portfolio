@@ -17,7 +17,11 @@ class SkillResource extends Resource
 {
     protected static ?string $model = Skill::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+
+    protected static ?string $navigationGroup = 'About Me';
+
+    protected static ?int $navigationSort = 5;
 
     public static function getRelations(): array
     {

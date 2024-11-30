@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ContactUsResource extends Resource
 {
     protected static ?string $model = ContactUs::class;
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Contact Us';
     protected static ?string $pluralLabel = 'Contact Us';
     protected static ?string $slug = 'contact-us';
     protected static ?string $navigationGroup = 'Contact Us';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
