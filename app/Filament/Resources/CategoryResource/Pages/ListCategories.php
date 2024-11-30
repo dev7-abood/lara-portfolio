@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Filament\Resources\SkillResource\Pages;
+namespace App\Filament\Resources\CategoryResource\Pages;
 
-use App\Filament\Resources\SkillResource;
+use App\Filament\Resources\CategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ListSkills extends ListRecords
+class ListCategories extends ListRecords
 {
-    protected static string $resource = SkillResource::class;
+    protected static string $resource = CategoryResource::class;
 
     public function table(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('category.name'),
-                ToggleColumn::make('is_public')
+                TextColumn::make('categoryable_type'),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //

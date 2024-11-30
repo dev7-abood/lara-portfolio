@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Filament\Resources\SkillResource\Pages;
+namespace App\Filament\Resources\CategoryResource\Pages;
 
-use App\Filament\Resources\SkillResource;
-use Filament\Actions;
-use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Grid;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\CategoryResource;
+use App\Models\Portfolio;
 use App\Models\Skill;
-use Filament\Resources\Pages\CreateRecord;
+use Filament\Actions;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Resources\Pages\EditRecord;
 
-class CreateSkill extends CreateRecord
+class EditCategory extends EditRecord
 {
-    protected static string $resource = SkillResource::class;
+    protected static string $resource = CategoryResource::class;
 
     public function form(Form $form): Form
     {
@@ -33,17 +30,11 @@ class CreateSkill extends CreateRecord
                                 ->label('Name')
                                 ->required(),
 
-                            Select::make('category_id')
-                                ->label('Select Category')
-                                ->relationship(
-                                    'categories',
-                                    'name',
-                                    fn (Builder $query)
-                                    => $query->where(['is_public' => true, 'categoryable_type' => Skill::class])
-                                )
-                                ->searchable()
-                                ->preload()
-
+                            Select::make('categoryable_type')
+                                ->options([
+                                    Portfolio::class => Portfolio::class,
+                                    Skill::class => Skill::class,
+                                ])
                         ])
                         ->columnSpan([
                             'sm' => 12,
@@ -55,7 +46,6 @@ class CreateSkill extends CreateRecord
                         ->schema([
                             Toggle::make('is_public')
                                 ->label('Publicly Visible')
-                                ->default(true),
                         ])
                         ->columnSpan([
                             'sm' => 12,
@@ -68,5 +58,10 @@ class CreateSkill extends CreateRecord
             ]);
     }
 
-
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\DeleteAction::make(),
+        ];
+    }
 }

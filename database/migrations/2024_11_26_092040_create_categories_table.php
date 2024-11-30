@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_public')->default(true);
+
+//            $table->unsignedBigInteger('categoryable_id')->nullable();
+            $table->string('categoryable_type')->nullable();
+
             $table->timestamps();
         });
     }

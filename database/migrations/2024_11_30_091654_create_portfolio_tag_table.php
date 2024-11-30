@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skills', function (Blueprint $table) {
+        Schema::create('portfolio_tag', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('is_public')->default(true);
 
-            $table->foreignId('category_id')
-                ->nullable()
+            $table->foreignId('portfolio_id')
                 ->constrained()
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreignId('tag_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->timestamps();
         });
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skills');
+        Schema::dropIfExists('portfolio_tag');
     }
 };

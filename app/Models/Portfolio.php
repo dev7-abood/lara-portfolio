@@ -20,9 +20,21 @@ class Portfolio extends Model
         ];
     }
 
-    public function files()
+    public function files() : \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(File::class, 'fileable');
+    }
+
+
+    public function tags() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+
+    public function categorise() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
     }
 
 }
