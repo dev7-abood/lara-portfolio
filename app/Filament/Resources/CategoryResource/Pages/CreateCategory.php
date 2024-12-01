@@ -34,7 +34,7 @@ class CreateCategory extends CreateRecord
                             ->options([
                                 Portfolio::class => 'Portfolio',
                                 Skill::class => 'Skill',
-                            ])
+                            ])->required()
                         ])
                         ->columnSpan([
                             'sm' => 12,

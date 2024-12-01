@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('color')->nullable();
             $table->boolean('is_public')->default(true);
+            $table->unsignedInteger('sort')->index()->nullable();
             $table->timestamps();
         });
     }

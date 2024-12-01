@@ -33,13 +33,15 @@ class EditSkill extends EditRecord
                             Select::make('category_id')
                                 ->label('Select Category')
                                 ->relationship(
-                                    'categories',
+                                    'category',
                                     'name',
-                                    fn (Builder $query)
-                                    => $query->where(['is_public' => true, 'categoryable_type' => Skill::class])
+                                    fn(Builder $query) => $query
+                                        ->where('is_public', true)
+                                        ->where('categoryable_type', Skill::class)
                                 )
                                 ->searchable()
                                 ->preload()
+                                ->nullable()
 
                         ])
                         ->columnSpan([

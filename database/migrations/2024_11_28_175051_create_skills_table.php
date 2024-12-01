@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_public')->default(true);
-
+            $table->unsignedInteger('sort')->index()->nullable();
             $table->foreignId('category_id')
                 ->nullable()
                 ->constrained()

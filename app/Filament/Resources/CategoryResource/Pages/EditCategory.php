@@ -34,7 +34,7 @@ class EditCategory extends EditRecord
                                 ->options([
                                     Portfolio::class => Portfolio::class,
                                     Skill::class => Skill::class,
-                                ])
+                                ])->required()
                         ])
                         ->columnSpan([
                             'sm' => 12,

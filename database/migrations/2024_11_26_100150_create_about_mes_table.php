@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('about_mes', function (Blueprint $table) {
             $table->id();
-
             $table->string('image')->nullable();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
-
             $table->boolean('is_public')->default(false);
-
+            $table->unsignedInteger('sort')->index()->nullable();
             $table->timestamps();
         });
     }

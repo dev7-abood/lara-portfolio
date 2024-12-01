@@ -23,7 +23,7 @@ class EditTag extends EditRecord
                 Grid::make(12)->schema([
 
                     Section::make('General Information')->schema([
-                        TextInput::make('name'),
+                        TextInput::make('name')->required(),
                         ColorPicker::make('color')
                     ])->columnSpan(8),
 

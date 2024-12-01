@@ -9,7 +9,6 @@ use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ColorColumn;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListTags extends ListRecords
 {
@@ -33,7 +32,9 @@ class ListTags extends ListRecords
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('sort')
+            ->defaultSort('sort');
     }
 
     protected function getHeaderActions(): array

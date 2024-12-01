@@ -32,7 +32,9 @@ class ListCategories extends ListRecords
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('sort')
+            ->defaultSort('sort');
     }
 
     protected function getHeaderActions(): array

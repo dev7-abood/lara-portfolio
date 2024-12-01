@@ -8,6 +8,8 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 
 class ListAboutMes extends ListRecords
 {
@@ -17,6 +19,8 @@ class ListAboutMes extends ListRecords
     {
         return $table
             ->columns([
+                TextColumn::make('description')->html()->limit(100),
+                ImageColumn::make('image'),
                 ToggleColumn::make('is_public')
             ])
             ->filters([
@@ -29,7 +33,9 @@ class ListAboutMes extends ListRecords
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('sort')
+            ->defaultSort('sort');
     }
 
     protected function getHeaderActions(): array

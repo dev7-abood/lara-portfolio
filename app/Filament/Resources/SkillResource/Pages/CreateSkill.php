@@ -36,7 +36,7 @@ class CreateSkill extends CreateRecord
                             Select::make('category_id')
                                 ->label('Select Category')
                                 ->relationship(
-                                    'categories',
+                                    'category',
                                     'name',
                                     fn (Builder $query)
                                     => $query->where(['is_public' => true, 'categoryable_type' => Skill::class])
