@@ -101,7 +101,7 @@ class EditPortfolio extends EditRecord
                             Select::make('categories')
                                 ->label('Select Categories')
                                 ->multiple()
-                                ->relationship('categorise', 'name',
+                                ->relationship('categories', 'name',
                                     fn(Builder $query) => $query->where(['is_public' => true, 'categoryable_type' => Portfolio::class])
                                 )
                                 ->preload()

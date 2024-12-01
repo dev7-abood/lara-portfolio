@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Portfolio extends Model
 {
@@ -32,9 +33,29 @@ class Portfolio extends Model
     }
 
 
-    public function categorise() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function categories() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
+
+
+//    protected static function booted()
+//    {
+//        static::deleting(function ($model) {
+//            // Delete the background file if it exists
+//            if ($model->background && Storage::exists($model->background)) {
+//                Storage::delete($model->background);
+//            }
+//
+//            // Handle images if they are already an array
+//            if (is_array($model->images)) {
+//                foreach ($model->images as $image) {
+//                    if (Storage::exists($image)) {
+//                        Storage::delete($image);
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 }
