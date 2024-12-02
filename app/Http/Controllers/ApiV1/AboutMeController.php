@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\ApiV1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\AboutMe;
 use App\Http\Resources\ApiV1\AboutMeResource;
 

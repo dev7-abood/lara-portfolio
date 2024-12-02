@@ -15,7 +15,7 @@ class AboutMeResource extends Resource
     protected static ?string $navigationLabel = 'About Me';
     protected static ?string $pluralLabel = 'About Me';
     protected static ?string $slug = 'about-me';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationGroup = 'About Me';
 
     public static function getRelations(): array

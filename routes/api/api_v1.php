@@ -5,8 +5,10 @@ use App\Http\Controllers\ApiV1\CategoryController;
 use App\Http\Controllers\ApiV1\PortfolioController;
 use App\Http\Controllers\ApiV1\AboutMeController;
 use App\Http\Controllers\ApiV1\ContactUsController;
+use App\Http\Controllers\ApiV1\EducationController;
 
 Route::get('about-me', [AboutMeController::class, 'aboutMe']);
+Route::get('education', [EducationController::class, 'index']);
 
 Route::prefix('portfolios')->group(function () {
     Route::get('/', [PortfolioController::class, 'index']);
@@ -22,6 +24,5 @@ Route::prefix('contact-us')->group(function () {
     Route::post('/store', [ContactUsController::class, 'store']);
 });
 
-#todo Education Section Need to add it
-#todo Portfolio Pagination
+
 #todo Settings

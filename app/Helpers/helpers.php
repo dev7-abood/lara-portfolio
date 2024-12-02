@@ -27,3 +27,24 @@ if (!function_exists('prefixedAssetUrl')) {
         return $baseUrl . '/' . trim($storagePrefix, '/') . '/' . ltrim($filePath, '/');
     }
 }
+
+
+if (!function_exists('paginationData')) {
+    /**
+     * Get pagination data for a paginated resource.
+     * @return array
+     */
+    function paginationData($paginator): array
+    {
+        return [
+            'current_page' => $paginator->currentPage(),
+            'first_page_url' => $paginator->url(1),
+            'from' => $paginator->firstItem(),
+            'next_page_url' => $paginator->nextPageUrl(),
+            'path' => $paginator->path(),
+            'per_page' => $paginator->perPage(),
+            'prev_page_url' => $paginator->previousPageUrl(),
+            'to' => $paginator->lastItem(),
+        ];
+    }
+}

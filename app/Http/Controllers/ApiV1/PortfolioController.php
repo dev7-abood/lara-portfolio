@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\ApiV1;
 
+use App\Http\Resources\ApiV1\PortfolioResource;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
-use App\Http\Resources\ApiV1\PortfolioResource;
+use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
@@ -12,8 +13,14 @@ class PortfolioController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index() : \Illuminate\Http\JsonResponse
+    public function index(Request $request) : \Illuminate\Http\JsonResponse
     {
+        $request->validate([
+            'page' => 'integer|min:1|max:100'
+        ]);
+
+        $per_page = $request->query('page', 3);
+
         $portfolios = Portfolio::query()
             ->with([
                 'categories' => fn($query) => $query->where('is_public', true)->orderBy('sort'),
@@ -21,7 +28,7 @@ class PortfolioController extends Controller
             ])
             ->orderBy('sort')
             ->where('is_public', true)
-            ->get();
+            ->simplePaginate($per_page);
 
         $portfolioResource = PortfolioResource::collection($portfolios);
 
@@ -29,6 +36,7 @@ class PortfolioController extends Controller
             'status' => true,
             'message' => 'Portfolio List',
             'data' => $portfolioResource,
+            'pagination' => paginationData($portfolios)
         ]);
     }
 
