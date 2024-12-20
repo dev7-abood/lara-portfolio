@@ -21,7 +21,9 @@ class ContactUsController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'service' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:15',
             'message' => 'required|string',
@@ -57,6 +59,9 @@ class ContactUsController extends Controller
         $telegramToken = config('telegram.bot_token');
         $telegramApiUrl = 'https://api.telegram.org/bot' . $telegramToken . '/sendMessage';
 
+        // Combine firstname and lastname to create the full name
+        $fullName = $data['firstname'] . ' ' . $data['lastname'];
+
         // Format location details
         $locationDetails = $locationData
             ? sprintf(
@@ -78,13 +83,15 @@ class ContactUsController extends Controller
         // Format the message
         $telegramMessage = sprintf(
             "📬 *New Contact Message Received:*\n\n" .
-            "*Name:* %s\n" .
+            "*Full Name:* %s\n" .
+            "*Service:* %s\n" .
             "*Email:* %s\n" .
             "*Phone:* %s\n" .
             "*Message:* %s\n\n" .
             "📍 *IP Address:* %s\n\n" .
             $locationDetails,
-            $data['full_name'],
+            $fullName,
+            $data['service'],
             $data['email'],
             $data['phone'],
             $data['message'],
@@ -98,7 +105,6 @@ class ContactUsController extends Controller
             'parse_mode' => 'Markdown',
         ]);
     }
-
 
     /**
      * Get location data based on IP address.
@@ -119,5 +125,4 @@ class ContactUsController extends Controller
 
         return null;
     }
-
 }
