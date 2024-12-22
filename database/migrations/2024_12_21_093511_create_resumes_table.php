@@ -29,10 +29,11 @@ return new class extends Migration
             $table->id();
             $table->string('program'); // e.g., 'Full Stack Web Development Bootcamp'
             $table->string('institution'); // e.g., 'Online Course Platform'
-            $table->string('year'); // e.g., '2023'
+            $table->string('duration'); // e.g., '2023'
             $table->text('description')->nullable(); // Optional details
             $table->boolean('is_public')->default(true);
             $table->unsignedInteger('sort')->index()->nullable();
+            $table->string('link')->nullable(); // e.g., 'cerebra.sa'
             $table->timestamps();
         });
 

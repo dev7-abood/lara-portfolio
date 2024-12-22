@@ -37,10 +37,19 @@ class ExperienceResource extends Resource
                 Grid::make(12)->schema([
                     Group::make()->schema([
                         Section::make('Main section')->schema([
-                            TextInput::make('role')->required(),
-                            TextInput::make('company')->required(),
-                            Textarea::make('description')->required(),
-                            TextInput::make('link')->label('Link')->url()->prefix('https://'),
+                            TextInput::make('role')
+                                ->placeholder("e.g., 'Full Stack Developer'")
+                                ->required(),
+                            TextInput::make('company')
+                                ->placeholder("e.g., 'Tech Solutions Inc'")
+                                ->required(),
+                            TextInput::make('link')
+                                ->label('Link')
+                                ->url()
+                                ->placeholder("e.g., 'cerebra.sa'")
+                                ->prefix('https://'),
+                            Textarea::make('description')
+                                ->required(),
                         ]),
                     ])->columnSpan(['default' => 'full', 'md' => 8]),
                     Group::make()->schema([
@@ -48,9 +57,10 @@ class ExperienceResource extends Resource
                             Toggle::make('is_public')->default(true),
                         ]),
                         Section::make('')->schema([
-                            DatePicker::make('duration_from')->label('Duration from'),
-                            DatePicker::make('duration_to')->label('Duration to'),
-                        ]),
+                            TextInput::make('duration')
+                                ->placeholder('2020 - Present')
+                                ->label('Duration'),
+                        ])->collapsible(),
                     ])->columnSpan(['default' => 'full', 'md' => 4]),
                 ]),
             ]);

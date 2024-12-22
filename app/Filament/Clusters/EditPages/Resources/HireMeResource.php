@@ -7,6 +7,12 @@ use App\Filament\Clusters\EditPages\Resources\HireMeResource\Pages;
 use App\Filament\Clusters\EditPages\Resources\HireMeResource\RelationManagers;
 use App\Models\HireMe;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,11 +25,11 @@ class HireMeResource extends Resource
     protected static ?string $model = HireMe::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
-
     protected static ?string $cluster = EditPages::class;
 
     protected static ?int $navigationSort = 6;
     protected static ?string $navigationLabel = 'Hire Me';
+
     protected static ?string $label = 'Hire Me';
     protected static ?string $pluralLabel = 'Hire Me';
     protected static ?string $slug = 'hire-me';
@@ -32,7 +38,26 @@ class HireMeResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Grid::make(12)->schema([
+                    Group::make()->schema([
+                        Section::make('Main section')->schema([
+                            TextInput::make('link')
+                                ->label('Link')
+                                ->placeholder("e.g., 'mail'")
+                                ->required(),
+                            TextInput::make('type')
+                                ->placeholder('Enter HTML type, e.g., mail or tel')
+                                ->label('Input Type')
+                                ->helperText('Specify the HTML input type, such as "email" or "tel" for phone number.')
+                        ]),
+                    ])->columnSpan(['default' => 'full', 'md' => 8]),
+                    Group::make()->schema([
+                        Section::make('')->schema([
+                            Toggle::make('is_public')
+                                ->default(true),
+                        ]),
+                    ])->columnSpan(['default' => 'full', 'md' => 4]),
+                ]),
             ]);
     }
 

@@ -40,14 +40,24 @@ class ServiceResource extends Resource
                 Grid::make(12)->schema([
                     Group::make()->schema([
                         Section::make('Main section')->schema([
-                            TextInput::make('title')->required(),
-                            Textarea::make('description')->required(),
-                            TextInput::make('link')->label('Link')->url()->prefix('https://'),
+                            TextInput::make('title')
+                                ->placeholder('e.g., Web Development, SEO Services')
+                                ->required(),
+                            TextInput::make('link')
+                                ->label('Link')
+                                ->placeholder('e.g., https://yourwebsite.com/service')
+                                ->url()
+                                ->prefix('https://'),
+                            Textarea::make('description')
+                                ->placeholder('e.g., A comprehensive explanation of the services offered, including features, benefits, and unique selling points.')
+                                ->required(),
                         ]),
                     ])->columnSpan(['default' => 'full', 'md' => 8]),
                     Group::make()->schema([
                         Section::make('')->schema([
-                            Toggle::make('is_public')->default(true),
+                            Toggle::make('is_public')
+                                ->label('Public Visibility')
+                                ->default(true)
                         ]),
                     ])->columnSpan(['default' => 'full', 'md' => 4]),
                 ]),
