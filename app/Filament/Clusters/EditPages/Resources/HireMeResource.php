@@ -16,6 +16,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -65,7 +67,9 @@ class HireMeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('link'),
+                TextColumn::make('type')->label('Input type'),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //
@@ -77,7 +81,9 @@ class HireMeResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sort', 'asc')
+            ->reorderable('sort');
     }
 
     public static function getRelations(): array

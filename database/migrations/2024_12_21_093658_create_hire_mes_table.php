@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('link');
             $table->string('type');
+            $table->boolean('is_public')->default(true);
+            $table->bigInteger('sort')->nullable();
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->tinyText('description')->nullable();
             $table->string('link')->nullable();
+            $table->bigInteger('sort')->nullable();
             $table->timestamps();
         });
     }

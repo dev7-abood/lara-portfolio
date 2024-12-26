@@ -104,7 +104,9 @@ class HomeResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sort', 'asc')
+            ->reorderable('sort');
     }
 
     public static function getRelations(): array

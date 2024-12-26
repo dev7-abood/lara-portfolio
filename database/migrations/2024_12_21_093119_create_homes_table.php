@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('social_media')->nullable(); // Social media links, stored as JSON
             $table->json('stats')->nullable(); // Numbers like experience, projects, technologies
             $table->string('resume_file')->nullable(); // CV or resume file location
+            $table->bigInteger('sort')->nullable();
             $table->boolean('is_public')->default(true);
 
             $table->timestamps();

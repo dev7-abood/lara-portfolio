@@ -17,6 +17,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -69,7 +71,12 @@ class EducationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('program'),
+                TextColumn::make('institution'),
+                TextColumn::make('link')->openUrlInNewTab(),
+                TextColumn::make('description'),
+                TextColumn::make('duration'),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //
@@ -81,7 +88,9 @@ class EducationResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sort', 'asc')
+            ->reorderable('sort');
     }
 
     public static function getRelations(): array

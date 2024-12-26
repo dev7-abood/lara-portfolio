@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('company'); // e.g., 'Tech Solutions Inc.'
             $table->string('duration'); // e.g., '2022 - Present'
             $table->text('description')->nullable(); // Details about the experience
+            $table->string('link')->nullable(); // e.g., 'https://cerebra.sa'
             $table->boolean('is_public')->default(true);
             $table->unsignedInteger('sort')->index()->nullable();
 
