@@ -7,10 +7,12 @@ use App\Http\Controllers\ApiV1\AboutMeController;
 use App\Http\Controllers\ApiV1\ContactUsController;
 use App\Http\Controllers\ApiV1\EducationController;
 use App\Http\Controllers\ApiV1\HomeController;
+use App\Http\Controllers\ApiV1\ServiceController;
 
 Route::get('about-me', [AboutMeController::class, 'aboutMe']);
 Route::get('education', [EducationController::class, 'index']);
 Route::get('home', [HomeController::class, 'index']);
+Route::get('services', [ServiceController::class, 'index']);
 
 Route::prefix('portfolios')->group(function () {
     Route::get('/', [PortfolioController::class, 'index']);
