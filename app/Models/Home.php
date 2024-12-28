@@ -17,6 +17,7 @@ class Home extends Model
     {
         return [
             'social_media' => 'array',
+            'stats' => 'json',
         ];
     }
 

@@ -52,37 +52,67 @@ class HomeResource extends Resource
             ->schema([
                 Grid::make(12)->schema([
                     Group::make()->schema([
-                        Section::make('Main section')->schema([
-                            TextInput::make('name'),
-                            TextInput::make('specialization'),
-                            TextInput::make('greeting_title'),
-                            Textarea::make('bio'),
+                        Section::make('Main Section')->schema([
+                            TextInput::make('name')
+                                ->placeholder('e.g., Abdulrhman Herzallah')
+                                ->label('Full Name'),
+
+                            TextInput::make('specialization')
+                                ->placeholder('e.g., Software Developer')
+                                ->label('Specialization'),
+
+                            TextInput::make('greeting_title')
+                                ->placeholder('e.g., Hello, I’m')
+                                ->label('Greeting Title'),
+
+                            Textarea::make('bio')
+                                ->placeholder('Write a detailed description about yourself...')
+                                ->label('Biography'),
                         ]),
+
                         Section::make('Manage Files')->schema([
                             FileUpload::make('profile_image')
                                 ->directory('profile-image')
                                 ->image()
-                                ->maxFiles(1),
+                                ->required()
+                                ->maxFiles(1)
+                                ->label('Profile Image')
+                                ->placeholder('Upload a profile picture'),
 
                             FileUpload::make('resume_file')
                                 ->directory('resume-file')
-                                ->maxFiles(1),
-
+                                ->required()
+                                ->maxFiles(1)
+                                ->label('Resume File')
+                                ->placeholder('Upload your resume')
+                                ->acceptedFileTypes(['application/pdf'])
+                                ->downloadable()
+                            ,
                         ]),
                     ])->columnSpan(['default' => 'full', 'md' => 8]),
+
                     Group::make()->schema([
-                        Section::make('')->schema([
-                            Toggle::make('is_public')->default(true),
-                        ]),
-                        Section::make('')->schema([
-                            KeyValue::make('social_media')
-                            ->label('Social media links')
+                        Section::make('Visibility')->schema([
+                            Toggle::make('is_public')
+                                ->default(true)
+                                ->label('Public Profile'),
                         ]),
 
+                        Section::make('Additional Info')->schema([
+                            KeyValue::make('social_media')
+                                ->label('Social Media Links')
+                                ->helperText('Add social media links like Facebook, Twitter, etc.'),
+
+                            KeyValue::make('stats')
+                                ->label('Statistics')
+                                ->reorderable()
+                                ->helperText('e.g., Experience, Projects Completed, Technologies Used'),
+                        ]),
                     ])->columnSpan(['default' => 'full', 'md' => 4]),
                 ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
@@ -91,7 +121,7 @@ class HomeResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('specialization'),
                 TextColumn::make('greeting_title'),
-                ImageColumn::make('profile_image'),
+                ImageColumn::make('profile_image')->circular(),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([
