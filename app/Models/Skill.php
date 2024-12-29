@@ -8,9 +8,16 @@ class Skill extends Model
 {
     protected $guarded = [];
 
-    public function category() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return $this->belongsTo(Category::class);
+        return [
+            'icons' => 'array',
+        ];
     }
 
 }

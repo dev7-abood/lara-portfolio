@@ -11,6 +11,8 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -39,14 +41,13 @@ class SkillResource extends Resource
                 ->schema([
                     Section::make('General Information')
                         ->schema([
-                            TextInput::make('name')
-                                ->label('Name')
-                                ->placeholder("e.g., 'HTML', 'CSS', 'JavaScript'")
+                            Textarea::make('description')
+                                ->label('Description')
                                 ->required(),
 
-                            TextInput::make('icon')
-                                ->label('icon')
-                                ->placeholder("Path or reference to an icon")
+                            KeyValue::make('icons')
+                                ->label('icons')
+                                ->reorderable()
                                 ->required(),
 
                         ])
@@ -78,8 +79,9 @@ class SkillResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('icon'),
+                TextColumn::make('description'),
+                TextColumn::make('icons'),
+                TextColumn::make('created_at'),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([
