@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('sub_description')->nullable();
             $table->json('images')->nullable();
             $table->boolean('is_public')->default(true);
-
+            $table->boolean('is_main')->default(false);
+            $table->string('duration'); // e.g., '2023'
             $table->integer('sort')->unsigned()->nullable();
 
             $table->timestamps();

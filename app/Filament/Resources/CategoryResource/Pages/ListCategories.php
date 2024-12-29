@@ -19,7 +19,7 @@ class ListCategories extends ListRecords
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('categoryable_type'),
+//                TextColumn::make('categoryable_type'),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([

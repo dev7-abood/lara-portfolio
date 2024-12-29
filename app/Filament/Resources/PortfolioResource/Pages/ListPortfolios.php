@@ -9,6 +9,7 @@ use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -22,7 +23,9 @@ class ListPortfolios extends ListRecords
             ->columns([
                 TextColumn::make('title'),
                 TextColumn::make('subtitle'),
-                ToggleColumn::make('is_public'),
+                ImageColumn::make('background'),
+                ToggleColumn::make('is_public')->label('Public Visible'),
+                ToggleColumn::make('is_main')->label('Main Visible'),
             ])
             ->filters([
                 //

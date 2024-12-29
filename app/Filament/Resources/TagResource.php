@@ -13,7 +13,9 @@ class TagResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationGroup = 'Portfolio';
+    protected static ?string $navigationGroup = 'Work';
+
+
     protected static ?int $navigationSort = 3;
 
     public static function getRelations(): array

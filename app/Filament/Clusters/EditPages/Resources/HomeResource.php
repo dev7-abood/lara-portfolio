@@ -101,6 +101,7 @@ class HomeResource extends Resource
                         Section::make('Additional Info')->schema([
                             KeyValue::make('social_media')
                                 ->label('Social Media Links')
+                                ->reorderable()
                                 ->helperText('Add social media links like Facebook, Twitter, etc.'),
 
                             KeyValue::make('stats')

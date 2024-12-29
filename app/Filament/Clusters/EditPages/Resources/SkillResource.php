@@ -49,17 +49,6 @@ class SkillResource extends Resource
                                 ->placeholder("Path or reference to an icon")
                                 ->required(),
 
-                            Select::make('category_id')
-                                ->label('Select Category')
-                                ->relationship(
-                                    'category',
-                                    'name',
-                                    fn (Builder $query)
-                                    => $query->where(['is_public' => true, 'categoryable_type' => Skill::class])
-                                )
-                                ->searchable()
-                                ->preload()
-
                         ])
                         ->columnSpan([
                             'sm' => 12,
