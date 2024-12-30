@@ -14,9 +14,7 @@ return new class extends Migration
         // Experience table
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->string('role'); // e.g., 'Full Stack Developer'
-            $table->string('company'); // e.g., 'Tech Solutions Inc.'
-            $table->string('duration'); // e.g., '2022 - Present'
+            $table->json('experiences');
             $table->text('description')->nullable(); // Details about the experience
             $table->string('link')->nullable(); // e.g., 'https://cerebra.sa'
             $table->boolean('is_public')->default(true);
@@ -28,13 +26,10 @@ return new class extends Migration
         // Education table
         Schema::create('educations', function (Blueprint $table) {
             $table->id();
-            $table->string('program'); // e.g., 'Full Stack Web Development Bootcamp'
-            $table->string('institution'); // e.g., 'Online Course Platform'
-            $table->string('duration'); // e.g., '2023'
+            $table->json('educations');
             $table->text('description')->nullable(); // Optional details
             $table->boolean('is_public')->default(true);
             $table->unsignedInteger('sort')->index()->nullable();
-            $table->string('link')->nullable(); // e.g., 'cerebra.sa'
             $table->timestamps();
         });
 
@@ -49,19 +44,11 @@ return new class extends Migration
         });
 
         // About Me table
-        Schema::create('about_me', function (Blueprint $table) {
+        Schema::create('about_mes', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // e.g., 'Luke Coleman'
-            $table->string('experience')->nullable(); // e.g., '12+ Years'
-            $table->string('nationality')->nullable(); // e.g., 'American'
-            $table->string('freelance_status')->nullable(); // e.g., 'Available'
-            $table->string('phone')->nullable(); // e.g., '+40 321 654 678'
-            $table->string('email')->nullable(); // e.g., 'luke.01@gmail.com'
-            $table->string('skype')->nullable(); // e.g., 'luke.01'
-            $table->string('languages')->nullable(); // e.g., 'English, Spanish'
+            $table->json('contact_details');
             $table->unsignedInteger('sort')->index()->nullable();
             $table->boolean('is_public')->default(true);
-
             $table->timestamps();
         });
     }

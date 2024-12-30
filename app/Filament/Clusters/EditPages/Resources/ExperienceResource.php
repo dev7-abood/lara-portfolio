@@ -9,6 +9,7 @@ use App\Models\Experience;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -38,31 +39,31 @@ class ExperienceResource extends Resource
             ->schema([
                 Grid::make(12)->schema([
                     Group::make()->schema([
-                        Section::make('Main section')->schema([
-                            TextInput::make('role')
-                                ->placeholder("e.g., 'Full Stack Developer'")
-                                ->required(),
-                            TextInput::make('company')
-                                ->placeholder("e.g., 'Tech Solutions Inc'")
-                                ->required(),
-                            TextInput::make('link')
-                                ->label('Link')
-                                ->url()
-                                ->placeholder("e.g., 'cerebra.sa'")
-                                ->prefix('https://'),
-                            Textarea::make('description')
-                                ->required(),
+                        Section::make('General')->schema([
+                            Toggle::make('is_public')
+                                ->default(true),
                         ]),
+                        Repeater::make('experiences')
+                            ->schema([
+                                TextInput::make('role')->placeholder("e.g., 'Full Stack Developer'")->required(),
+                                TextInput::make('company')->placeholder("e.g., 'Tech Solutions Inc.'")->required(),
+                                TextInput::make('duration')
+                                    ->placeholder('2020 - Present')
+                                    ->label('Duration')->required(),
+                                TextInput::make('link')
+                                    ->label('Link')
+                                    ->url()
+                                    ->placeholder("e.g., 'cerebra.sa'")
+                                    ->prefix('https://'),
+                                Textarea::make('description'),
+                                Toggle::make('is_public')
+                                    ->default(true),
+                            ]),
                     ])->columnSpan(['default' => 'full', 'md' => 8]),
                     Group::make()->schema([
                         Section::make('')->schema([
-                            Toggle::make('is_public')->default(true),
+                            Textarea::make('description')->required(),
                         ]),
-                        Section::make('')->schema([
-                            TextInput::make('duration')
-                                ->placeholder('2020 - Present')
-                                ->label('Duration'),
-                        ])->collapsible(),
                     ])->columnSpan(['default' => 'full', 'md' => 4]),
                 ]),
             ]);
