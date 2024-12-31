@@ -45,8 +45,8 @@ class SkillResource extends Resource
                                 ->label('Description')
                                 ->required(),
 
-                            KeyValue::make('icons')
-                                ->label('icons')
+                            KeyValue::make('skills')
+                                ->label('skills')
                                 ->reorderable()
                                 ->required(),
 

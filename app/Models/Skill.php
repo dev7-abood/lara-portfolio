@@ -16,7 +16,7 @@ class Skill extends Model
     protected function casts(): array
     {
         return [
-            'icons' => 'array',
+            'skills' => 'array',
         ];
     }
 

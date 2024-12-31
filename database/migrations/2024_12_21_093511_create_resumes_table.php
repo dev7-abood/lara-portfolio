@@ -37,7 +37,7 @@ return new class extends Migration
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->tinyText('description');
-            $table->json('icons')->nullable(); // Path or reference to an icon
+            $table->json('skills')->nullable(); // Path or reference to an icon
             $table->boolean('is_public')->default(true);
             $table->unsignedInteger('sort')->index()->nullable();
             $table->timestamps();
