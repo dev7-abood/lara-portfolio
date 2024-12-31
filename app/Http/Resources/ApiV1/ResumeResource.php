@@ -20,10 +20,11 @@ class ResumeResource extends JsonResource
         $experience = $this['experience'] ?? [];
 
         return [
-            'About Me' => $aboutMe,
-            'Skills' => $skill,
-            'Education' => $education,
             'Experience' => $experience,
+            'Education' => $education,
+            'Skills' => $skill,
+            'About Me' => $aboutMe,
+            'defaultSection' => 'experience'
         ];
 
     }

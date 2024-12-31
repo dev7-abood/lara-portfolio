@@ -47,6 +47,7 @@ return new class extends Migration
         Schema::create('about_mes', function (Blueprint $table) {
             $table->id();
             $table->json('contact_details');
+            $table->tinyText('description')->nullable();
             $table->unsignedInteger('sort')->index()->nullable();
             $table->boolean('is_public')->default(true);
             $table->timestamps();
