@@ -16,14 +16,15 @@ return new class extends Migration
 
             $table->string('title');
             $table->string('subtitle')->nullable();
-            $table->string('url')->nullable();
-
+            $table->string('live_preview_url')->nullable();
+            $table->string('github_url')->nullable();
             $table->string('background');
             $table->text('description');
             $table->text('sub_description')->nullable();
             $table->json('images')->nullable();
             $table->boolean('is_public')->default(true);
             $table->boolean('is_main')->default(false);
+            $table->boolean('with_more_details')->default(false);
             $table->string('duration'); // e.g., '2023'
             $table->integer('sort')->unsigned()->nullable();
 

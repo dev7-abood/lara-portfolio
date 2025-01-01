@@ -5,7 +5,9 @@ namespace App\Http\Controllers\ApiV1;
 use App\Http\Resources\ApiV1\PortfolioResource;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Database\Query\Builder;
 
 class PortfolioController extends Controller
 {
@@ -13,22 +15,14 @@ class PortfolioController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request) : \Illuminate\Http\JsonResponse
+    public function mainSection(Request $request)
     {
-        $request->validate([
-            'page' => 'integer|min:1|max:100'
-        ]);
-
-        $per_page = $request->query('page', 3);
-
         $portfolios = Portfolio::query()
-            ->with([
-                'categories' => fn($query) => $query->where('is_public', true)->orderBy('sort'),
-                'tags' => fn($query) => $query->where('is_public', true)->orderBy('sort')
-            ])
             ->orderBy('sort')
             ->where('is_public', true)
-            ->simplePaginate($per_page);
+            ->where('is_main', true)
+            ->with('tags')
+        ->get();
 
         $portfolioResource = PortfolioResource::collection($portfolios);
 
@@ -36,14 +30,23 @@ class PortfolioController extends Controller
             'status' => true,
             'message' => 'Portfolio List',
             'data' => $portfolioResource,
-            'pagination' => paginationData($portfolios)
         ]);
     }
 
     /**
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Database\Eloquent\Collection
      */
+
+
+    public function byCategories()
+    {
+        return Category::with(['portfolios' => function ($query) {
+            $query->orderBy('sort')
+                ->where('is_public', true)
+                ->with('tags');
+        }])->get();
+    }
 
     public function show($id) : \Illuminate\Http\JsonResponse
     {

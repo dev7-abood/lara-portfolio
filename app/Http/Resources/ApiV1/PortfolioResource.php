@@ -21,8 +21,10 @@ class PortfolioResource extends JsonResource
             'description' => $this->description,
             'sub_description' => $this->sub_description,
             'background' => prefixedAssetUrl($this->background),
+            'live_preview_url' => $this->live_preview_url,
+            'github_url' => $this->github_url,
+            'duration' => $this->duration,
             'images' => array_map(fn($image) => prefixedAssetUrl($image), $this->images ?? []),
-            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
         ];
     }

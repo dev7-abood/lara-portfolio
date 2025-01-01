@@ -40,10 +40,14 @@ class PortfolioResource extends Resource
                             TextInput::make('subtitle')
                                 ->label('Subtitle')
                                 ->placeholder('Enter the subtitle'),
-                            TextInput::make('url')
-                                ->label('Project URL')
+                            TextInput::make('live_preview_url')
+                                ->label('Live preview URL')
                                 ->url()
                                 ->placeholder('https://example.com'),
+                            TextInput::make('github_url')
+                                ->label('Github URL')
+                                ->url()
+                                ->placeholder('https://github.com'),
                         ])
                         ->collapsible()
                         ->columnSpan([
@@ -111,6 +115,11 @@ class PortfolioResource extends Resource
                             Toggle::make('is_main')
                                 ->label('Main Visible')
                                 ->helperText('Toggle to set this as the main visible portfolio.')
+                                ->default(true),
+
+                            Toggle::make('with_more_details')
+                                ->label('With more details')
+                                ->helperText('Enable this to include additional details in the portfolio view.')
                                 ->default(true),
 
                             Select::make('categories')
