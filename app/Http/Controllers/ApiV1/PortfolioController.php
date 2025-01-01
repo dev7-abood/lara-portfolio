@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiV1;
 
 use App\Http\Resources\ApiV1\PortfolioResource;
+use App\Http\Resources\ApiV1\CategoryResource;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use App\Models\Category;
@@ -35,17 +36,28 @@ class PortfolioController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
 
 
     public function byCategories()
     {
-        return Category::with(['portfolios' => function ($query) {
-            $query->orderBy('sort')
-                ->where('is_public', true)
-                ->with('tags');
-        }])->get();
+        $categories = Category::query()->whereHas('portfolios', function ($query) {
+            $query->where('is_public', true);
+        })
+            ->with(['portfolios' => function ($query) {
+                $query->orderBy('sort')
+                    ->where('is_public', true)
+                    ->with('tags');
+            }])
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Work List',
+            'data' => CategoryResource::collection($categories),
+        ]);
+
     }
 
     public function show($id) : \Illuminate\Http\JsonResponse
