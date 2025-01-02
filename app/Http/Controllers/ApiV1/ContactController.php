@@ -5,11 +5,28 @@ namespace App\Http\Controllers\ApiV1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContactUs;
+use App\Models\Contact;
+use App\Http\Resources\ApiV1\ContactResource;
 use Illuminate\Support\Facades\Http;
 
-class ContactUsController extends Controller
+class ContactController extends Controller
 {
-    #todo dashboard notification
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index() : \Illuminate\Http\JsonResponse
+    {
+        $contact = Contact::query()
+            ->where('is_public', true)
+            ->first();
+
+        return response()->json([
+            'status' => (bool) $contact,
+            'message' => $contact ? 'Contact found' : 'No public contact available',
+            'data' => $contact ? new ContactResource($contact) : null,
+        ]);
+    }
 
     /**
      * Store a new contact message.

@@ -23,7 +23,7 @@ class PortfolioController extends Controller
             ->where('is_public', true)
             ->where('is_main', true)
             ->with('tags')
-        ->get();
+            ->get();
 
         $portfolioResource = PortfolioResource::collection($portfolios);
 
@@ -42,7 +42,8 @@ class PortfolioController extends Controller
 
     public function byCategories()
     {
-        $categories = Category::query()->whereHas('portfolios', function ($query) {
+        $categories = Category::query()->orderBy('sort')
+            ->whereHas('portfolios', function ($query) {
             $query->where('is_public', true);
         })
             ->with(['portfolios' => function ($query) {
@@ -58,31 +59,6 @@ class PortfolioController extends Controller
             'data' => CategoryResource::collection($categories),
         ]);
 
-    }
-
-    public function show($id) : \Illuminate\Http\JsonResponse
-    {
-        $portfolio = Portfolio::query()
-            ->with([
-                'categories' => fn($query) => $query->where('is_public', true)->orderBy('sort'),
-                'tags' => fn($query) => $query->where('is_public', true)->orderBy('sort'),
-            ])
-            ->where('is_public', true)
-            ->orderBy('sort')
-            ->find($id);
-
-        if (!$portfolio) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Portfolio not found',
-            ], 404);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Portfolio retrieved successfully',
-            'data' => new PortfolioResource($portfolio),
-        ]);
     }
 
 }
