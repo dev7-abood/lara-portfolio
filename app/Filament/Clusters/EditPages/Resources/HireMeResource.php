@@ -29,7 +29,7 @@ class HireMeResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
     protected static ?string $cluster = EditPages::class;
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 7;
     protected static ?string $navigationLabel = 'Hire Me';
 
     protected static ?string $label = 'Hire Me';

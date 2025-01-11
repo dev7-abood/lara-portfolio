@@ -79,9 +79,8 @@ class SkillResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('description'),
-                TextColumn::make('icons'),
-                TextColumn::make('created_at'),
+                TextColumn::make('description')->limit(40),
+                TextColumn::make('skills')->limit(30),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([

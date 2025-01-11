@@ -18,6 +18,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,7 +34,7 @@ class AboutMeResource extends Resource
     protected static ?string $pluralLabel = 'About Me';
     protected static ?string $slug = 'about-me';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 8;
 
     public static function form(Form $form): Form
     {
@@ -61,7 +63,9 @@ class AboutMeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('description')->limit(40),
+                TextColumn::make('contact_details')->limit(25),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //

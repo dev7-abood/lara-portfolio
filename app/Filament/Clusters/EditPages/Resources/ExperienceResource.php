@@ -73,11 +73,8 @@ class ExperienceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('role'),
-                TextColumn::make('company'),
-                TextColumn::make('link')->openUrlInNewTab(),
-                TextColumn::make('description'),
-                TextColumn::make('duration'),
+                TextColumn::make('description')->limit(40),
+                TextColumn::make('experiences')->limit(40),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([

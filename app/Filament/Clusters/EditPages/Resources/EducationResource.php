@@ -71,11 +71,8 @@ class EducationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('program'),
-                TextColumn::make('institution'),
-                TextColumn::make('link')->openUrlInNewTab(),
-                TextColumn::make('description'),
-                TextColumn::make('duration'),
+                TextColumn::make('description')->limit(40),
+                TextColumn::make('educations')->limit(30),
                 ToggleColumn::make('is_public'),
             ])
             ->filters([

@@ -17,6 +17,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Repeater;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,9 +28,11 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-phone';
 
     protected static ?string $cluster = EditPages::class;
+
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
@@ -66,7 +70,11 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('welcome_message'),
+                TextColumn::make('phone'),
+                TextColumn::make('email'),
+                TextColumn::make('address'),
+                ToggleColumn::make('is_public'),
             ])
             ->filters([
                 //
@@ -78,7 +86,9 @@ class ContactResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sort', 'asc')
+            ->reorderable('sort');
     }
 
     public static function getRelations(): array
