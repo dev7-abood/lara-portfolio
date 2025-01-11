@@ -47,7 +47,6 @@ class SkillResource extends Resource
 
                             KeyValue::make('skills')
                                 ->label('skills')
-                                ->reorderable()
                                 ->required(),
 
                         ])

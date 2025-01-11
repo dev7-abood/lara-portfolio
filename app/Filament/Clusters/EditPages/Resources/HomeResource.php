@@ -4,22 +4,15 @@ namespace App\Filament\Clusters\EditPages\Resources;
 
 use App\Filament\Clusters\EditPages;
 use App\Filament\Clusters\EditPages\Resources\HomeResource\Pages;
-use App\Models\Category;
 use App\Models\Home;
-use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -27,10 +20,6 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Components\KeyValue;
-
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
 
 class HomeResource extends Resource
 {
@@ -101,12 +90,10 @@ class HomeResource extends Resource
                         Section::make('Additional Info')->schema([
                             KeyValue::make('social_media')
                                 ->label('Social Media Links')
-                                ->reorderable()
                                 ->helperText('Add social media links like Facebook, Twitter, etc.'),
 
                             KeyValue::make('stats')
                                 ->label('Statistics')
-                                ->reorderable()
                                 ->helperText('e.g., Experience, Projects Completed, Technologies Used'),
                         ]),
                     ])->columnSpan(['default' => 'full', 'md' => 4]),

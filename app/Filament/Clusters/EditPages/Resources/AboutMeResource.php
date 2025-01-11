@@ -47,7 +47,6 @@ class AboutMeResource extends Resource
                                 ->default(true),
                         ]),
                         KeyValue::make('contact_details')
-                            ->reorderable()
                             ->required(),
                     ])->columnSpan(['default' => 'full', 'md' => 8]),
                     Group::make()->schema([
