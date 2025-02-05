@@ -1,8 +1,11 @@
 [phases.setup]
-nixPkgs = ["php", "phpPackages.composer", "nginx", "nodejs", "yarn"]
+# Use PHP 8.3 instead of the latest PHP version
+nixPkgs = ["php83", "phpPackages.composer", "nginx", "nodejs", "yarn"]
 
 [phases.build]
 cmds = [
+    "mkdir -p bootstrap/cache storage/framework/cache storage/framework/views storage/logs",
+    "chmod -R 775 bootstrap/cache storage",
     "composer install --no-dev --optimize-autoloader",
     "php artisan config:cache",
     "php artisan route:cache",
