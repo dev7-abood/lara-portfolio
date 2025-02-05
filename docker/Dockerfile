@@ -1,58 +1,36 @@
-# Set base image for PHP 8.2
+# Base stage: PHP with dependencies
 FROM php:8.2-fpm AS base
-
-# Set working directory
 WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
-    unzip \
-    libonig-dev \
-    libxml2-dev \
+    git curl libpng-dev libjpeg-dev libfreetype6-dev zip unzip libonig-dev libxml2-dev \
     && docker-php-ext-configure gd \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install pdo pdo_mysql mbstring xml opcache bcmath
+    && docker-php-ext-install gd pdo pdo_mysql mbstring xml bcmath opcache
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy Laravel application files
+# Copy application files
 COPY . .
 
-# Install dependencies based on environment
-ARG APP_ENV=production
-RUN if [ "$APP_ENV" = "production" ]; then \
-        composer install --no-dev --optimize-autoloader; \
-    else \
-        composer install; \
-    fi
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions for Laravel storage and bootstrap cache
-RUN chmod -R 775 storage bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache
-
-# Configure Laravel Optimizations
+# Configure Laravel optimizations
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# Multi-stage for Nginx (final image)
-FROM nginx:alpine AS final
-
-# Set working directory
+# Production stage: Lightweight image
+FROM php:8.2-fpm AS production
 WORKDIR /var/www/html
 
-# Copy application files from the base stage
+# Copy optimized application from the base stage
 COPY --from=base /var/www/html /var/www/html
 
-# Copy Nginx config
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+# Set proper permissions
+RUN chmod -R 775 storage bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache
 
-# Expose ports
-EXPOSE 80 443
+# Expose default port
+EXPOSE 9000
 
-# Start Nginx and PHP-FPM
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["php-fpm"]
