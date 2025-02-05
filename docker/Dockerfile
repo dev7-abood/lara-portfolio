@@ -5,8 +5,12 @@ WORKDIR /var/www/html
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libjpeg-dev libfreetype6-dev zip unzip libonig-dev libxml2-dev \
+    libzip-dev libicu-dev g++ locales \
     && docker-php-ext-configure gd \
-    && docker-php-ext-install gd pdo pdo_mysql mbstring xml bcmath opcache
+    && docker-php-ext-install gd pdo pdo_mysql mbstring xml bcmath opcache intl zip
+
+# Add Git safe directory
+RUN git config --global --add safe.directory /var/www/html
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
