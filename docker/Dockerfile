@@ -45,8 +45,8 @@ COPY --from=base /var/www/html /var/www/html
 # Set proper permissions for storage and cache directories
 RUN chmod -R 775 storage bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache
 
-# Expose the default PHP-FPM port
-EXPOSE 9000
+# Expose the application on port 3000
+EXPOSE 3000
 
-# Run PHP-FPM
-CMD ["php-fpm"]
+# Run PHP-FPM on port 3000
+CMD ["php-fpm", "--fpm-port", "3000"]
