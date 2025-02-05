@@ -27,7 +27,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache/data} bootstrap/cache \
 RUN php artisan cache:clear || true
 
 # Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install
 
 # Configure Laravel optimizations
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
