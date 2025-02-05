@@ -23,6 +23,9 @@ RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
+# Clear any existing cache (to prevent issues)
+RUN php artisan cache:clear || true
+
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
