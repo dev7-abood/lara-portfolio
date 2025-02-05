@@ -2,6 +2,9 @@
 FROM php:8.2-fpm AS base
 WORKDIR /var/www/html
 
+# Set environment variable for compiled views
+ENV VIEW_COMPILED_PATH=/var/www/html/storage/framework/views
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libjpeg-dev libfreetype6-dev zip unzip libonig-dev libxml2-dev \
@@ -18,18 +21,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy application files
 COPY . .
 
-# Ensure cache and storage paths exist and have the right permissions
+# Ensure required directories exist and have correct permissions
 RUN mkdir -p storage/framework/{sessions,views,cache/data} bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
-# Clear cache to prevent errors
+# Clear Laravel cache (ignore errors if cache not set up yet)
 RUN php artisan cache:clear || true
 
-# Install dependencies
-RUN composer install
+# Install dependencies (this will trigger package discovery)
+RUN composer install --no-dev --optimize-autoloader
 
-# Configure Laravel optimizations
+# Configure Laravel optimizations (caches, routes, views)
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # Production stage: Lightweight image
@@ -39,10 +42,11 @@ WORKDIR /var/www/html
 # Copy optimized application from the base stage
 COPY --from=base /var/www/html /var/www/html
 
-# Set proper permissions
+# Set proper permissions for storage and cache directories
 RUN chmod -R 775 storage bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache
 
-# Expose default port
+# Expose the default PHP-FPM port
 EXPOSE 9000
 
+# Run PHP-FPM
 CMD ["php-fpm"]
