@@ -1,5 +1,11 @@
+version: '3.8'
 services:
     app:
         build: .
         ports:
             - "3000:3000"
+        volumes:
+            - .:/var/www/html
+        environment:
+            - APP_ENV=production
+            - PHP_FPM_LISTEN=3000

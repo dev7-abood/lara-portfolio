@@ -2,9 +2,6 @@
 FROM php:8.3.9-fpm AS base
 WORKDIR /var/www/html
 
-# Set environment variable for compiled views
-ENV VIEW_COMPILED_PATH=/var/www/html/storage/framework/views
-
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libjpeg-dev libfreetype6-dev zip unzip libonig-dev libxml2-dev \
@@ -20,6 +17,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy application files
 COPY . .
+
+# Copy custom PHP-FPM config file
+COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Ensure required directories exist and have correct permissions
 RUN mkdir -p storage/framework/{sessions,views,cache/data} bootstrap/cache \
@@ -42,11 +42,14 @@ WORKDIR /var/www/html
 # Copy optimized application from the base stage
 COPY --from=base /var/www/html /var/www/html
 
+# Copy custom PHP-FPM config file
+COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+
 # Set proper permissions for storage and cache directories
 RUN chmod -R 775 storage bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache
 
 # Expose the application on port 3000
 EXPOSE 3000
 
-# Run PHP-FPM on port 3000
-CMD ["php-fpm", "--fpm-port", "3000"]
+# Run PHP-FPM with the correct config
+CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.d/www.conf"]
