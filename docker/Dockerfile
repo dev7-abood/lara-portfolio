@@ -1,5 +1,5 @@
 # Base stage: PHP with dependencies
-FROM php:8.2-fpm AS base
+FROM php:8.3.9-fpm AS base
 WORKDIR /var/www/html
 
 # Set environment variable for compiled views
@@ -36,7 +36,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # Production stage: Lightweight image
-FROM php:8.2-fpm AS production
+FROM php:8.3.9-fpm AS production
 WORKDIR /var/www/html
 
 # Copy optimized application from the base stage
