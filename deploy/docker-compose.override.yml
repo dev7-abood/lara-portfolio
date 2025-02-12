@@ -1,5 +1,0 @@
-version: '3'
-services:
-  laravel.test:
-    volumes:
-      - ./docker/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
