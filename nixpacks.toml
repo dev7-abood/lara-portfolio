@@ -1,30 +1,33 @@
-[phases.setup]
-nixPkgsVersion = "unstable"  # Use unstable to ensure compatibility
-nixPkgs = [
-    "php",
-    "phpPackages.composer",  # reference composer correctly
-    "nodejs",
-    "yarn",
-    "nginx",
-    "postgresql",
-    "mysql",
-    "openssl",
-    "sqlite",
-    "vim"
-]
+# Specify the build plan
+[build]
+plan = "php"
 
+# Set environment variables
+env = {
+NIXPACKS_PHP_ROOT_DIR = "/var/www/html/public",
+NIXPACKS_PHP_FALLBACK_PATH = "/index.php"
+}
+
+# Install PHP Extensions
+[variables]
+NIXPACKS_PHP_EXTENSIONS = "pdo pdo_mysql mbstring tokenizer"
+
+# Install dependencies and optimize Laravel
+[phases.setup]
 cmds = [
     "composer install --no-dev --optimize-autoloader",
-    "npm install",
-    "npm run build"
-]
-
-[phases.build]
-cmds = [
     "php artisan config:cache",
     "php artisan route:cache",
-    "php artisan view:cache",
+    "php artisan view:cache"
 ]
 
+# Run database migrations (optional)
+#[phases.deploy]
+#cmds = [
+#    "php artisan migrate --force"
+#]
+
+# Use Nginx as the web server
 [start]
-cmd = "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"
+cmd = "nginx -g 'daemon off;'"
+
