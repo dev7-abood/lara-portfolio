@@ -9,7 +9,8 @@ nixPkgs = [
     "postgresql",
     "mysql",
     "openssl",
-    "sqlite"
+    "sqlite",
+    "vim"
 ]
 
 cmds = [
