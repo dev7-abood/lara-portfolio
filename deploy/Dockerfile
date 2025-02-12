@@ -1,7 +1,5 @@
-# deploy/Dockerfile
-
 # Stage 1: Build Stage
-FROM php:8.2-fpm-alpine as build
+FROM php:8.2-fpm-alpine AS build
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
@@ -13,13 +11,17 @@ RUN apk add --no-cache \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
+    icu \
+    icu-dev \
+    libintl \
     nodejs \
     npm \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip pdo pdo_mysql \
+    && docker-php-ext-install zip pdo pdo_mysql intl \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-enable gd
+    && pecl install redis \
+    && docker-php-ext-enable gd intl redis
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -58,4 +60,5 @@ WORKDIR /var/www/html
 # Define volumes for persistent storage
 VOLUME ["/var/www/html/storage/app"]
 
+# Start Nginx and PHP-FPM
 CMD ["sh", "-c", "nginx && php-fpm"]
