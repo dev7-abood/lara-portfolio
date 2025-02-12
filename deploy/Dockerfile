@@ -1,7 +1,7 @@
 # Stage 1: Build Stage
 FROM php:8.2-fpm-alpine AS build
 
-# Install required dependencies for PHP extensions
+# Install required dependencies for PHP extensions and Node.js
 RUN apk add --no-cache \
     zip \
     unzip \
@@ -16,15 +16,17 @@ RUN apk add --no-cache \
     libjpeg-turbo-dev \
     libpng-dev \
     icu \
-    icu-libs \
-    icu-data-full \
     icu-dev \
     libintl \
-    nodejs \
+    autoconf \
+    g++ \
+    make \
+    nginx \
     npm \
+    nodejs \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip pdo pdo_mysql intl \
-    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install redis \
     && docker-php-ext-enable gd intl redis
@@ -40,7 +42,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Install PHP and Node.js dependencies
+# Install PHP, Node.js, and NPM dependencies
 RUN composer install --no-dev --prefer-dist \
     && npm install \
     && npm run build
@@ -51,9 +53,11 @@ RUN chown -R www-data:www-data /var/www/html/vendor \
 # Stage 2: Production Stage
 FROM php:8.2-fpm-alpine
 
-# Install Nginx
+# Install Nginx and Node.js
 RUN apk add --no-cache \
     nginx \
+    npm \
+    nodejs \
     && rm -rf /var/cache/apk/*
 
 # Copy files from the build stage
