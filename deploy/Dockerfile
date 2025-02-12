@@ -1,7 +1,7 @@
 # Stage 1: Build Stage
 FROM php:8.2-fpm-alpine AS build
 
-# Install required dependencies for PHP extensions and Node.js
+# Install required dependencies for PHP, Node.js, and NPM
 RUN apk add --no-cache \
     zip \
     unzip \
@@ -22,8 +22,8 @@ RUN apk add --no-cache \
     g++ \
     make \
     nginx \
-    npm \
     nodejs \
+    npm \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip pdo pdo_mysql intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -36,19 +36,23 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy application files and set permissions
+# Copy application files
 COPY . .
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage \
-    && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Install PHP, Node.js, and NPM dependencies
+# ✅ Ensure storage and cache directories exist
+RUN mkdir -p storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+# ✅ Install PHP, Node.js, and NPM dependencies
 RUN composer install --no-dev --prefer-dist \
     && npm install \
     && npm run build
 
-RUN chown -R www-data:www-data /var/www/html/vendor \
-    && chmod -R 775 /var/www/html/vendor
+# ✅ Set correct permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
 # Stage 2: Production Stage
 FROM php:8.2-fpm-alpine
@@ -56,8 +60,8 @@ FROM php:8.2-fpm-alpine
 # Install Nginx and Node.js
 RUN apk add --no-cache \
     nginx \
-    npm \
     nodejs \
+    npm \
     && rm -rf /var/cache/apk/*
 
 # Copy files from the build stage
