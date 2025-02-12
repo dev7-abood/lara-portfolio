@@ -22,8 +22,8 @@ RUN apk add --no-cache \
     g++ \
     make \
     nginx \
-    nodejs \
     npm \
+    nodejs \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip pdo pdo_mysql intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -39,6 +39,9 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
+# ✅ Fix Git Ownership Issue
+RUN git config --global --add safe.directory /var/www/html
+
 # ✅ Ensure storage and cache directories exist
 RUN mkdir -p storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache \
@@ -49,7 +52,7 @@ RUN composer install --no-dev --prefer-dist \
     && npm install \
     && npm run build
 
-# ✅ Set correct permissions
+# ✅ Set correct ownership and permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
@@ -60,8 +63,8 @@ FROM php:8.2-fpm-alpine
 # Install Nginx and Node.js
 RUN apk add --no-cache \
     nginx \
-    nodejs \
     npm \
+    nodejs \
     && rm -rf /var/cache/apk/*
 
 # Copy files from the build stage
