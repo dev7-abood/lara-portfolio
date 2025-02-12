@@ -1,51 +1,55 @@
-# deploy/docker-compose.yml
-
 version: '3.8'
-
 services:
-    laravel:
-        restart: unless-stopped
-        container_name: laravelapp
+    app:
         build:
-            context: ../
-            dockerfile: ./deploy/Dockerfile
-        volumes:
-            - ../storage/app:/var/www/html/storage/app
+            context: .
+            dockerfile: Dockerfile
+        image: laravel-app
+        container_name: laravel-app
+        restart: unless-stopped
+        tty: true
         environment:
-            APP_NAME: ${APP_NAME}
-            APP_ENV: ${APP_ENV}
-            APP_DEBUG: ${APP_DEBUG}
-            APP_KEY: ${APP_KEY}
-            APP_URL: ${APP_URL}
-            DB_CONNECTION: mysql
-            DB_HOST: database
-            DB_PORT: 3306
-            DB_DATABASE: ${DB_DATABASE}
-            DB_USERNAME: ${DB_USERNAME}
-            DB_PASSWORD: ${DB_PASSWORD}
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - .:/var/www
+            - ./docker-compose/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - app-network
+
+    webserver:
+        image: nginx:alpine
+        container_name: nginx-webserver
+        restart: unless-stopped
         ports:
             - "8080:80"
-        networks:
-            - laravel-network
-        depends_on:
-            - database
-
-    database:
-        restart: unless-stopped
-        image: mariadb:lts-jammy
         volumes:
-            - v-database:/var/lib/mysql
-        environment:
-            MARIADB_DATABASE: ${DB_DATABASE}
-            MARIADB_USER: ${DB_USERNAME}
-            MARIADB_PASSWORD: ${DB_PASSWORD}
-            MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            - .:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
         networks:
-            - laravel-network
+            - app-network
 
-volumes:
-    v-database:
+    db:
+        image: mysql:5.7
+        container_name: mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: laravel
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+            MYSQL_USER: root
+        ports:
+            - "3306:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - app-network
 
 networks:
-    laravel-network:
+    app-network:
         driver: bridge
+
+volumes:
+    dbdata:
+        driver: local
