@@ -32,15 +32,15 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy the existing application directory contents to the working directory
+# Copy the application directory and set correct permissions
 COPY . /var/www
+RUN chown -R www-data:www-data /var/www
 
-# Copy the existing application directory permissions to the working directory
-COPY --chown=www-data:www-data . /var/www
+# Remove "USER www-data" to avoid ignored directives
+# USER www-data  <-- REMOVE THIS LINE
 
-# Change current user to www
-USER www-data
-
-# Expose port 9000 and start php-fpm server
+# Expose PHP-FPM port
 EXPOSE 9000
+
+# Start PHP-FPM
 CMD ["php-fpm"]
