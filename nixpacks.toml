@@ -1,17 +1,35 @@
+# Define required system packages
 [phases.setup]
-nixPkgs = ["php", "composer", "nodejs", "yarn", "nginx", "postgresql", "mysql"]
+nixPkgsVersion = "unstable"
+nixPkgs = [
+    "php",
+    "phpPackages.composer",
+    "nodejs",
+    "yarn",
+    "nginx",
+    "postgresql",
+    "mysql",
+    "openssl",
+    "sqlite"  # Add SQLite if needed
+]
+
+# Install Laravel dependencies & build assets
 cmds = [
-    "composer install",
+    "nix-env -iA nixpkgs.phpPackages.composer",  # Ensure composer is installed
+    "composer install --no-dev --optimize-autoloader",
     "npm install",
     "npm run build"
 ]
 
+# Build phase: Optimize Laravel app
 [phases.build]
 cmds = [
     "php artisan config:cache",
     "php artisan route:cache",
     "php artisan view:cache",
+    "php artisan migrate --force"  # Ensure database migrations are applied
 ]
 
+# Start Laravel server
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"
