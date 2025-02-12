@@ -1,9 +1,9 @@
 [phases.setup]
-nixPkgs = ["php", "php81Packages.composer", "nginx", "php-fpm", "nodejs", "coreutils"]
+nixPkgs = ["php", "phpPackages.composer", "nginx", "php-fpm", "nodejs", "coreutils"]
 
 [phases.build]
 cmds = [
-    "composer install --no-dev --optimize-autoloader",
+    "composer install",
     "php artisan config:clear",
     "php artisan route:clear",
     "php artisan view:clear",
@@ -13,7 +13,5 @@ cmds = [
 
 [start]
 cmds = [
-    "php artisan migrate --force",
-    "php artisan queue:restart",
     "nginx -c /app/nginx.conf"
 ]
