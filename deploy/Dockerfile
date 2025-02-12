@@ -1,9 +1,13 @@
 # Stage 1: Build Stage
 FROM php:8.2-fpm-alpine AS build
 
-# Install system dependencies and PHP extensions
+# Install required dependencies for PHP extensions
 RUN apk add --no-cache \
     zip \
+    unzip \
+    git \
+    curl \
+    bash \
     libzip-dev \
     freetype \
     libjpeg-turbo \
@@ -12,6 +16,8 @@ RUN apk add --no-cache \
     libjpeg-turbo-dev \
     libpng-dev \
     icu \
+    icu-libs \
+    icu-data-full \
     icu-dev \
     libintl \
     nodejs \
