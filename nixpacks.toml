@@ -1,17 +1,19 @@
 [phases.setup]
-# Use PHP 8.3 instead of the latest PHP version
-nixPkgs = ["php83", "phpPackages.composer", "nginx", "nodejs", "yarn"]
+nixPkgs = ["php82", "composer", "nginx", "php-fpm", "nodejs", "coreutils"]
 
 [phases.build]
 cmds = [
-    "mkdir -p bootstrap/cache storage/framework/cache storage/framework/views storage/logs",
-    "chmod -R 775 bootstrap/cache storage",
-    "composer install",
-    "php artisan config:cache",
-    "php artisan route:cache",
-    "php artisan view:cache",
-    "npm install && npm run build"
+    "composer install --no-dev --optimize-autoloader",
+    "php artisan config:clear",
+    "php artisan route:clear",
+    "php artisan view:clear",
+    "php artisan cache:clear",
+    "php artisan storage:link"
 ]
 
 [start]
-cmd = "php artisan serve --host=0.0.0.0 --port=8000"
+cmds = [
+    "php artisan migrate --force",
+    "php artisan queue:restart",
+    "nginx -c /app/nginx.conf"
+]
