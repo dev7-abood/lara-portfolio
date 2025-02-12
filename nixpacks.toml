@@ -2,7 +2,7 @@
 nixPkgsVersion = "unstable"  # Use unstable to ensure compatibility
 nixPkgs = [
     "php",
-    "composer",  # Use "composer" instead of phpPackages.composer
+    "phpPackages.composer",  # reference composer correctly
     "nodejs",
     "yarn",
     "nginx",
