@@ -1,7 +1,16 @@
 # nixpacks.toml - Nixpacks configuration for Laravel 11
 
 [phases.setup]
-# Install required system dependencies, PHP 8.2, and Composer
+# Add PHP repository, then install Composer
+cmds = [
+    "apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates curl",
+    "curl -fsSL https://packages.sury.org/php/apt.gpg | apt-key add -",
+    "echo 'deb https://packages.sury.org/php/ $(lsb_release -sc) main' > /etc/apt/sources.list.d/php.list",
+    "apt-get update",
+    "curl -sS https://getcomposer.org/installer | php",
+    "mv composer.phar /usr/local/bin/composer"
+]
+
 aptPkgs = [
     "git",
     "unzip",
