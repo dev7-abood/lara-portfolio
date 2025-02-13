@@ -45,9 +45,6 @@ cmds = [
 # Start Laravel inside the app directory
 cmds = ["php artisan serve --host=0.0.0.0 --port=${PORT}"]
 
-[variables]
-envFiles = ["./.env.production", "./.env"]
-
 [plan]
 # Define runtime environment
 runtime = "php"
