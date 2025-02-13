@@ -13,6 +13,8 @@ services:
         environment:
             - APP_ENV=local
             - APP_DEBUG=true
+        env_file:
+            - .env
         expose:
             - "9000"  # PHP-FPM runs on port 9000 (not 8000)
         networks:
