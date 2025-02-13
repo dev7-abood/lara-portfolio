@@ -1,10 +1,10 @@
-# Use the official PHP 8.3 image
+# Use official PHP 8.3 image
 FROM php:8.3-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     zip unzip curl libpng-dev libonig-dev libxml2-dev \
-    libzip-dev libicu-dev git \
+    libzip-dev libicu-dev git vim \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
 
 # Install the latest Composer version
