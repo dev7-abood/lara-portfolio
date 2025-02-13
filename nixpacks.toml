@@ -46,8 +46,7 @@ cmds = [
 cmds = ["php artisan serve --host=0.0.0.0 --port=${PORT}"]
 
 [variables]
-# Read environment variables directly from .env
-envFiles = [".env"]
+envFiles = ["./.env.production", "./.env"]
 
 [plan]
 # Define runtime environment
