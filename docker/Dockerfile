@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
 
 # Install the latest Composer version
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # Copy Laravel files
 COPY . .
@@ -19,8 +19,8 @@ COPY . .
 # Install Laravel dependencies
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Set correct permissions (Fix: Removed non-existing path)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port for PHP-FPM
 EXPOSE 9000
