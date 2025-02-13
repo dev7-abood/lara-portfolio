@@ -1,27 +1,74 @@
-# Specify the build plan
-[build]
-plan = "php"
+# nixpacks.toml - Nixpacks configuration for Laravel 11
 
-# Install PHP Extensions
-[variables]
-NIXPACKS_PHP_EXTENSIONS = "pdo pdo_mysql mbstring tokenizer"
-
-# Install dependencies and optimize Laravel
 [phases.setup]
-cmds = [
-    "composer install --no-dev --optimize-autoloader",
-    "php artisan config:cache",
-    "php artisan route:cache",
-    "php artisan view:cache"
+# Install required system dependencies, PHP 8.2, and Composer
+aptPkgs = [
+    "git",
+    "unzip",
+    "curl",
+    "libpng-dev",
+    "libjpeg-dev",
+    "libfreetype6-dev",
+    "php8.2",
+    "php8.2-cli",
+    "php8.2-mbstring",
+    "php8.2-xml",
+    "php8.2-bcmath",
+    "php8.2-curl",
+    "php8.2-tokenizer",
+    "php8.2-zip",
+    "php8.2-fpm",
+    "php8.2-pdo",
+    "php8.2-mysql",
+    "php8.2-opcache",
+    "php8.2-gd",
+    "nodejs",
+    "npm"
 ]
 
-# Run database migrations (optional)
-#[phases.deploy]
-#cmds = [
-#    "php artisan migrate --force"
-#]
+cmds = [
+    "curl -sS https://getcomposer.org/installer | php",
+    "mv composer.phar /usr/local/bin/composer"
+]
 
-# Use Nginx as the web server
-[start]
-cmd = "nginx -g 'daemon off;'"
+[phases.build]
+# Run all Laravel build commands inside the app directory
+cmds = [
+    "composer install --no-dev --prefer-dist --optimize-autoloader",
+    "php artisan config:cache",
+    "php artisan route:cache",
+    "php artisan view:cache",
+    "php artisan storage:link"
+]
 
+[phases.start]
+# Start Laravel inside the app directory
+cmds = ["php artisan serve --host=0.0.0.0 --port=${PORT}"]
+
+[variables]
+# Read environment variables directly from .env
+envFiles = [".env"]
+
+[plan]
+# Define runtime environment
+runtime = "php"
+
+# Install required PHP extensions for Laravel 11
+packages = [
+    "php",
+    "php-cli",
+    "php-mbstring",
+    "php-xml",
+    "php-bcmath",
+    "php-curl",
+    "php-tokenizer",
+    "php-zip",
+    "php-fpm",
+    "php-pdo",
+    "php-mysql",
+    "php-opcache",
+    "php-gd"
+]
+
+# Include essential Laravel directories and files
+include = [".env", "storage", "bootstrap/cache", "public"]
