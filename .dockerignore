@@ -1,0 +1,19 @@
+# Ignore unnecessary files
+node_modules
+vendor
+storage/logs
+storage/framework
+storage/debugbar
+bootstrap/cache
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore Docker files that should not be copied
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Exclude cache files
+.DS_Store
+Thumbs.db
