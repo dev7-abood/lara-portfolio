@@ -20,7 +20,7 @@ COPY . .
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 # Set correct permissions (Fix: Removed non-existing path)
-RUN chown 755 www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose port for PHP-FPM
 EXPOSE 9000
