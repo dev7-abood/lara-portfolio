@@ -21,16 +21,21 @@ services:
         image: nginx:alpine
         container_name: laravel_nginx
         restart: unless-stopped
-        ports:
-            - "80:80"  # Exposing Nginx externally on port 80
         volumes:
             - .:/var/www/html
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.laravel.rule=Host(`yourdomain.com`)"  # Change to your domain or IP
+            - "traefik.http.services.laravel.loadbalancer.server.port=80"
         depends_on:
             - app
         networks:
             - laravel
+            - traefik  # Attach Nginx to the existing Traefik network
 
 networks:
     laravel:
         driver: bridge
+    traefik:  # Make sure Nginx connects to Traefik’s network
+        external: true
