@@ -14,6 +14,7 @@ Route::get('resume-data', [ResumeController::class, 'resumeData']);
 Route::get('home', [HomeController::class, 'index']);
 Route::get('services', [ServiceController::class, 'index']);
 Route::get('hire-me-button', [HireMeController::class, 'hireMeButton']);
+Route::get('profile-image', [PortfolioController::class, 'profileImage']);
 
 // work section
 Route::prefix('portfolio')->group(function () {

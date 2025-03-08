@@ -9,6 +9,7 @@ use App\Models\Portfolio;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Database\Query\Builder;
+use App\Models\Home;
 
 class PortfolioController extends Controller
 {
@@ -16,7 +17,7 @@ class PortfolioController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mainSection(Request $request)
+    public function mainSection(Request $request) : \Illuminate\Http\JsonResponse
     {
         $portfolios = Portfolio::query()
             ->orderBy('sort')
@@ -40,7 +41,7 @@ class PortfolioController extends Controller
      */
 
 
-    public function byCategories()
+    public function byCategories() : \Illuminate\Http\JsonResponse
     {
         $categories = Category::query()->orderBy('sort')
             ->whereHas('portfolios', function ($query) {
@@ -58,6 +59,25 @@ class PortfolioController extends Controller
             'message' => 'Work List',
             'data' => CategoryResource::collection($categories),
         ]);
+
+    }
+
+
+    /**
+     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|object
+     */
+    public function profileImage() : \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse
+    {
+        $portfolios = Home::query()
+            ->orderBy('sort')
+            ->where('is_public', true)
+            ->first();
+
+        if (!$portfolios) {
+            return redirect('/');
+        }
+
+        return redirect('storage/' . $portfolios->profile_image);
 
     }
 
